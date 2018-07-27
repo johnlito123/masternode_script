@@ -55,8 +55,9 @@ sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c
 	sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
 	sudo systemctl restart tor.service
 	rm -rf Xuez_Setup.sh* XuezUpdate.sh*
-	./xuez-cli stop
+	./xuez-cli stop	
 echo "configure your VPS with Xuez recommended settings"
+	
 	sudo apt-get update
 	sudo apt-get -y upgrade
 	sudo apt-get -y dist-upgrade
@@ -288,3 +289,39 @@ else
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo ""
 fi
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Would you like to Activate your Masternode under the TOR Network? [y/n], followed by [ENTER]"
+	read TORSETUP
+	if 
+	[[ $TORSETUP =~ "y" ]] || [[$TORSETUP =~ "Y" ]] ; then
+	./xuez-cli getnetworkinfo
+echo "Please copy the TOR Output address EG.aedFAWE235AGa2.onion above"
+echo "onto your notepad then change your IP:PORT into TOR:Port"
+echo " for the next part of this script"
+echo ""
+echo "For example 15.123.15.34:41798 into aedFAWE235AGa2.onion:47198"
+echo "on both Local and VPS xuez.conf file"
+echo ""
+echo ""
+echo "*****Ready to carry on? [y/n], followed by [ENTER]*****"
+fi
+	read CARRYONSETUP
+	if 
+	[[ $CARRYONSETUP =~ "y" ]] || [[$CARRYONSETUP =~ "Y" ]] ; then
+cd
+./xuez-cli stop
+cd .xuez 
+vi xuez.conf
+./xuezd -reindex
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!                                                 !"
+	echo "! Your MasterNode Is TOR Configured close the terminal  !"
+	echo "!   and continue the local wallet setup 	     !"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo ""
+	fi
+	
