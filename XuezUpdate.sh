@@ -9,7 +9,7 @@ echo "*    If you have any issues please ask for help on the XUEZ discord.      
 echo "*                      https://discord.gg/QWcK5Yk                          *"
 echo "*                        https://xuezcoin.com/                             *"
 echo "****************************************************************************"
-echo "" 
+echo ""
 echo ""
 echo "!!!!!!!!!!PLEASE READ CAREFULLY!!!!!!!!!!!!!!!"
 echo ""
@@ -17,18 +17,18 @@ echo "**************************************************************************
 echo "* It is very important to install your masternode under a new user rather than root.*"
 echo "* 		Please enter one of the option	below				*"
 echo "*	------------------------OPTIONS BELOW-------------------------------------------*"
-echo "* 1 - Enter "Y" If you are running this Script as the root 			*"
-echo "* 2 - Enter "Y" If you want to access your user - Maintenance/Update only		 *"
+echo "* 1 - Enter Y If you are running this Script as the root 			*"
+echo "* 2 - Enter Y If you want to access your user - Maintenance/Update only		 *"
 echo "*											*"
-echo "* 3 - Enter "N" if you are running this Script under your new user.		*"
-echo "* 4 - Enter "N" If you want to install your Masternode under root (not recommeneded) *"
+echo "* 3 - Enter N if you are running this Script under your new user.		*"
+echo "* 4 - Enter N If you want to install your Masternode under root (not recommeneded) *"
 echo "*											*"
 echo "*											*"
 echo "***********************************************************************************"
 read USRSETUP
-	if 
+	if
 		[[ $USRSETUP =~ "y" ]] || [[$USRSETUP =~ "Y" ]] ; then
-	
+
 		sudo adduser xuez
 		usermod -aG sudo xuez
 		sudo su - xuez
@@ -40,51 +40,47 @@ echo "Do you to use our Express Masternode/Wallet installation? [y/n], followed 
 echo ""
 echo ""
 read EXSETUP
-	if 
-		if
-			[[ $EXSETUP =~ "y" ]] || [[$EXSETUP =~ "Y" ]] ; then
-			sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
-			gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
-			gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
-			sudo apt-get update
-			sudo apt-get install tor deb.torproject.org-keyring -y
-			sudo usermod -a -G debian-tor $(whoami)
-
-			sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
-			sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc 
-			sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
-			sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
-			sudo systemctl restart tor.service
-			rm -rf Xuez_Setup.sh* XuezUpdate.sh*
-			./xuez-cli stop	
-			sudo apt-get update
-			sudo apt-get -y upgrade
-			sudo apt-get -y dist-upgrade
-			sudo apt-get install -y ufw
-			sudo ufw allow ssh/tcp
-			sudo ufw limit ssh/tcp
-			sudo ufw logging on
-			sudo ufw allow 22
-			sudo ufw allow 41798
-			sudo ufw allow 9033
-			echo "y" | sudo ufw enable
-			sudo ufw status
-			./xuez-cli stop
-			rm xuezd
-			rm xuez-cli
-			rm xuez-tx
-			wget https://github.com/XUEZ/xuez/releases/download/1.0.1.10/xuez-linux-cli-10110.tgz
-			tar -xf xuez-linux-cli-10110.tgz
-			rm xuez-linux-cli-10110.tgz
-			sudo su -c "echo 'listenonion=1' >> /$CONF_DIR/$CONF_FILE"
-		fi
-
+	if
+		[[ $EXSETUP =~ "y" ]] || [[$EXSETUP =~ "Y" ]] ; then
+		
+		sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
+		gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+		gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+		sudo apt-get update
+		sudo apt-get install tor deb.torproject.org-keyring -y
+		sudo usermod -a -G debian-tor $(whoami)
+		sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
+		sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc
+		sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
+		sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
+		sudo systemctl restart tor.service
+		rm -rf Xuez_Setup.sh* XuezUpdate.sh*
+		./xuez-cli stop
+		sudo apt-get update
+		sudo apt-get -y upgrade
+		sudo apt-get -y dist-upgrade
+		sudo apt-get install -y ufw
+		sudo ufw allow ssh/tcp
+		sudo ufw limit ssh/tcp
+		sudo ufw logging on
+		sudo ufw allow 22
+		sudo ufw allow 41798
+		sudo ufw allow 9033
+		echo "y" | sudo ufw enable
+		sudo ufw status
+		./xuez-cli stop
+		rm xuezd
+		rm xuez-cli
+		rm xuez-tx
+		wget https://github.com/XUEZ/xuez/releases/download/1.0.1.10/xuez-linux-cli-10110.tgz
+		tar -xf xuez-linux-cli-10110.tgz
+		rm xuez-linux-cli-10110.tgz
+		sudo su -c "echo 'listenonion=1' >> /$CONF_DIR/$CONF_FILE"
 		echo "Masternode Configuration"
 		echo "Your recognised IP address is:"
-		sudo hostname -I 
+		sudo hostname -I
 		echo "Is this the IP you wish to use for MasterNode ? [y/n] , followed by [ENTER]"
 		read IPDEFAULT
-	
 		if
 			[[ $IPDEFAULT =~ "y" ]] || [[$IPDEFAULT =~ "Y" ]] ; then
 			echo ""
@@ -119,7 +115,7 @@ read EXSETUP
 			echo "!   and continue the local wallet setup guide     !"
 			echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 			echo ""
-		else	
+		else
 			echo "Type the custom IP of this node, followed by [ENTER]:"
 			read DIP
 			echo ""
@@ -153,13 +149,13 @@ read EXSETUP
 			echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 			echo ""
 		fi
-	else 
+	else
 		echo ""
 		echo "Do you want TOR Integrated into this VPS? [y/n], followed by [ENTER]"
 		echo ""
 		echo ""
 		read TSETUP
-		if 
+		if
 			[[ $TSETUP =~ "y" ]] || [[$TSETUP =~ "Y" ]] ; then
 			sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
 			gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
@@ -169,7 +165,7 @@ read EXSETUP
 			sudo usermod -a -G debian-tor $(whoami)
 
 			sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
-			sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc 
+			sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc
 			sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
 			sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
 			sudo systemctl restart tor.service
@@ -180,12 +176,12 @@ read EXSETUP
 		echo ""
 		echo "Do you want to configure your VPS with Xuez recommended settings? [y/n], followed by [ENTER]"
 		read DOSETUP
-		if 
+		if
 			[[ $DOSETUP =~ "y" ]] || [[$DOSETUP =~ "Y" ]] ; then
 			sudo apt-get update
 			sudo apt-get -y upgrade
 			sudo apt-get -y dist-upgrade
-	
+
 			sudo apt-get install -y ufw
 			sudo ufw allow ssh/tcp
 			sudo ufw limit ssh/tcp
@@ -213,7 +209,7 @@ read EXSETUP
 			sudo su -c "echo 'listenonion=1' >> /.xuez/xuez.conf"
 			echo "Masternode Configuration"
 			echo "Your recognised IP address is:"
-			sudo hostname -I 
+			sudo hostname -I
 			echo "Is this the IP you wish to use for MasterNode ? [y/n] , followed by [ENTER]"
 			read IPDEFAULT
 			if
@@ -250,7 +246,7 @@ read EXSETUP
 				echo "!   and continue the local wallet setup guide     !"
 				echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 				echo ""
-			else	
+			else
 				echo "Type the custom IP of this node, followed by [ENTER]:"
 				read DIP
 				echo ""
@@ -286,7 +282,7 @@ read EXSETUP
 			fi
 		fi
 	fi
-	
+
 echo ""
 echo ""
 echo ""
@@ -294,7 +290,7 @@ echo ""
 echo ""
 echo "Would you like to Activate your Masternode under the TOR Network? [y/n], followed by [ENTER]"
 	read TORSETUP
-	if 
+	if
 		[[ $TORSETUP =~ "y" ]] || [[$TORSETUP =~ "Y" ]] ; then
 		./xuez-cli getnetworkinfo
 		echo "Please copy the TOR Output address EG.aedFAWE235AGa2.onion above"
@@ -308,11 +304,11 @@ echo "Would you like to Activate your Masternode under the TOR Network? [y/n], f
 		echo "*****Ready to carry on? [y/n], followed by [ENTER]*****"
 	fi
 	read CARRYONSETUP
-	if 
+	if
 		[[ $CARRYONSETUP =~ "y" ]] || [[$CARRYONSETUP =~ "Y" ]] ; then
 		cd
 		./xuez-cli stop
-		cd .xuez 
+		cd .xuez
 		vi xuez.conf
 		./xuezd -reindex
 		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
