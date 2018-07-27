@@ -25,9 +25,9 @@ echo "* 4 - Enter "N" If you want to install your Masternode under root (not rec
 echo "*											*"
 echo "*											*"
 echo "***********************************************************************************"
-read USETUP
+read USRSETUP
 	if 
-		[[ $USETUP =~ "y" ]] || [[$USETUP =~ "Y" ]] ; then
+		[[ $USRSETUP =~ "y" ]] || [[$USRSETUP =~ "Y" ]] ; then
 	
 		sudo adduser xuez
 		usermod -aG sudo xuez
