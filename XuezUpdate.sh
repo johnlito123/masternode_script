@@ -26,13 +26,12 @@ echo "*											*"
 echo "*											*"
 echo "***********************************************************************************"
 read USRSETUP
-	if
-		[[ $USRSETUP =~ "y" ]] || [[$USRSETUP =~ "Y" ]] ; then
-
-		sudo adduser xuez
-		usermod -aG sudo xuez
-		sudo su - xuez
-	fi
+if
+[[ $USRSETUP =~ "y" ]] || [[$USRSETUP =~ "Y" ]] ; then
+sudo adduser xuez
+usermod -aG sudo xuez
+sudo su - xuez
+fi
 echo ""
 echo ""
 echo ""
