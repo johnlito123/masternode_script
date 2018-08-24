@@ -6,7 +6,11 @@
 
 To run the script simply type the following commands into your VPS terminal. 
  
-`wget https://github.com/johnlito123/masternode_script/releases/download/#/XuezUpdate.sh && chmod 755 XuezUpdate.sh && ./XuezUpdate.sh`
+ Express Installation:
+ `wget https://github.com/johnlito123/masternode_script/releases/download/#/X-Install.sh && chmod 755 X-Install.sh && ./X-Install.sh`
+
+ Custom Installation:
+ `wget https://github.com/johnlito123/masternode_script/releases/download/#/C-Install.sh && chmod 755 C-Install.sh && ./C-Install.sh`
 
 <h1> Masternode Basic Requierments </h1>
 
