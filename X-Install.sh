@@ -61,7 +61,7 @@ echo "installing/updating your Masternode"
 rm xuezd
 rm xuez-cli
 rm xuez-tx
-wget https://github.com/XUEZ/xuez/releases/download/1.0.1.10/xuez-linux-cli-10110.tgz
+wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz
 tar -xf xuez-linux-cli-10110.tgz
 rm xuez-linux-cli-10110.tgz
 sudo su -c "echo 'listenonion=1' >> /.xuez/xuez.conf"
