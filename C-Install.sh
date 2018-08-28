@@ -3,7 +3,7 @@ cd ~
 rm -rf Xuez_Setup.sh* XuezUpdate.sh*
 echo "****************************************************************************"
 echo "* This script will install and configure your XUEZ Coin masternodes.       *"
-echo "*                    Love from A_Block_Nut(Thermo) ;)                      *"
+echo "*                     									                 *"
 echo "*    If you have any issues please ask for help on the XUEZ discord.       *"
 echo "*                      https://discord.gg/QWcK5Yk                          *"
 echo "*                        https://xuezcoin.com/                             *"

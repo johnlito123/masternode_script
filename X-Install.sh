@@ -21,9 +21,9 @@ echo ""
 echo "Do you want to use our Express Masternode/Wallet installation? [y/n], followed by [ENTER]"
 echo ""
 echo ""
-read EXSETUP
+read TSETUP
 	if
-	[[ $EXSETUP =~ "y" ]] || [[$EXSETUP =~ "Y" ]] ; then
+	[[ $TSETUP =~ "y" ]] || [[$TSETUP =~ "Y" ]] ; then
 sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
 	gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 	gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
@@ -38,7 +38,8 @@ sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c
 	sudo systemctl restart tor.service
 	rm -rf Xuez_Setup.sh* XuezUpdate.sh*
 	./xuez-cli stop
-echo "configure your VPS with Xuez recommended settings"
+	fi
+	echo "configure your VPS with Xuez recommended settings"
 	sudo apt-get update
 	sudo apt-get -y upgrade
 	sudo apt-get -y dist-upgrade
@@ -49,23 +50,22 @@ echo "configure your VPS with Xuez recommended settings"
 	sudo ufw logging on
 	sudo ufw allow 22
 	sudo ufw allow 41798
-        sudo ufw allow 9033
+    sudo ufw allow 9033
 	echo "y" | sudo ufw enable
 	sudo ufw status
 
-echo ""
-echo ""
-echo ""
-echo "installing/updating your Masternode"
-./xuez-cli stop
-rm xuezd
-rm xuez-cli
-rm xuez-tx
-wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz
-tar -xf xuez-linux-cli-10110.tgz
-rm xuez-linux-cli-10110.tgz
-sudo su -c "echo 'listenonion=1' >> /.xuez/xuez.conf"
-fi
+	echo ""
+	echo ""
+	echo ""
+	echo "installing/updating your Masternode"
+	./xuez-cli stop
+	rm xuezd
+	rm xuez-cli
+	rm xuez-tx
+	wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz
+	tar -xf xuez-linux-cli-10110.tgz
+	rm xuez-linux-cli-10110.tgz
+	sudo su -c "echo 'listenonion=1' >> $CONF_DIR/$CONF_FILE"
 echo "Masternode Configuration"
 echo "Your recognised IP address is:"
 sudo hostname -I
