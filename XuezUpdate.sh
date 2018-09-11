@@ -49,8 +49,6 @@ echo "*                        https://xuezcoin.com/                            
 echo "****************************************************************************"
 
 echo && echo && echo
-sleep 5
-
 # Check if is root
 if [ "$(whoami)" != "root" ]; then
   echo "Script must be run as user: root"
