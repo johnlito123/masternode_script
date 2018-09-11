@@ -53,22 +53,27 @@ echo ""
 echo ""
 
 sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
+setTimeout(myFunction, 2000);
 gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+setTimeout(myFunction, 2000);
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+setTimeout(myFunction, 2000);
 sudo apt-get update
 sudo apt-get install tor deb.torproject.org-keyring
 sudo usermod -a -G debian-tor $(whoami)
+echo ""
 sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
+echo ""
 sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc
+echo ""
 sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
+echo ""
 sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
+echo ""
 sudo systemctl restart tor.service
-
-	
 	sudo apt-get update
 	sudo apt-get -y upgrade
 	sudo apt-get -y dist-upgrade
-	
 	sudo apt-get install -y ufw
 	sudo ufw allow ssh/tcp
 	sudo ufw limit ssh/tcp
