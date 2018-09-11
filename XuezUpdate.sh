@@ -51,6 +51,11 @@ echo "**************************************************************************
 echo ""
 echo ""
 echo ""
+./xuez-cli stop
+rm xuezd  && rm xuez-cli && rm xuez-tx
+wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz 		
+tar -xvzf xuez-linux-cli-10110.tgz								
+rm xuez-linux-cli-10110.tgz	
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
@@ -64,11 +69,6 @@ sudo ufw allow 9051
 sudo ufw allow 9033
 echo "y" | sudo ufw enable
 sudo ufw status
-./xuez-cli stop
-rm xuezd  && rm xuez-cli && rm xuez-tx
-wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz 		
-tar -xvzf xuez-linux-cli-10110.tgz								
-rm xuez-linux-cli-10110.tgz	
 sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
 gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
