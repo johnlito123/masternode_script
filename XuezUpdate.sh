@@ -51,49 +51,59 @@ echo "**************************************************************************
 echo ""
 echo ""
 echo ""
-	sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
+echo "Start Installation? [Y/N]"
+read USETUP
+	if 
+	[[ $USETUP =~ "y" ]] || [[$USETUP =~ "Y" ]] ; then
+sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
 	gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 	gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 	sudo apt-get update
-	sudo apt-get install tor deb.torproject.org-keyring -y
+	sudo apt-get install tor deb.torproject.org-keyring
 	sudo usermod -a -G debian-tor $(whoami)
+
 	sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
-	sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc
+	sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc 
 	sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
 	sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
 	sudo systemctl restart tor.service
-	rm -rf Xuez_Setup.sh* XuezUpdate.sh*
-	./xuez-cli stop
-		sudo apt-get update
+fi
+
+echo "Do you want to configure your VPS with the recommended Xuez settings? [y/n]"
+read DOSETUP
+	if 
+	[[ $DOSETUP =~ "y" ]] || [[$DOSETUP =~ "Y" ]] ; then
+	sudo apt-get update
 	sudo apt-get -y upgrade
 	sudo apt-get -y dist-upgrade
+	
 	sudo apt-get install -y ufw
 	sudo ufw allow ssh/tcp
 	sudo ufw limit ssh/tcp
 	sudo ufw logging on
 	sudo ufw allow 22
 	sudo ufw allow 41798
-    sudo ufw allow 9033
+        sudo ufw allow 9051
+        sudo ufw allow 9033
 	echo "y" | sudo ufw enable
 	sudo ufw status
-	echo ""
-	echo ""
-	echo ""
-	./xuez-cli stop
-	rm xuezd
-	rm xuez-cli
-	rm xuez-tx
-	wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz
-	tar -xf xuez-linux-cli-10110.tgz
-	rm xuez-linux-cli-10110.tgz
-	sudo su -c "echo 'listenonion=1' >> $CONF_DIR/$CONF_FILE"
+	
+./xuez-cli stop
+rm xuezd  && rm xuez-cli && rm xuez-tx
+wget https://bitbucket.org/davembg/xuez-distribution-repo/downloads/xuez-linux-cli-10110.tgz 		
+tar -xvzf xuez-linux-cli-10110.tgz								
+rm xuez-linux-cli-10110.tgz									
+sudo su -c "echo -e 'listenonion=1' >> $CONF_DIR/$CONF_FILE"
+echo "" >> $CONF_DIR/$CONF_FILE && echo "listenonion=1"  >> $CONF_DIR/$CONF_FILE
+fi
+
 echo "Masternode Configuration"
 echo "Your recognised IP address is:"
-sudo hostname -I
-
+sudo hostname -I 
 echo "Is this the IP you wish to use for MasterNode ? [y/n] , followed by [ENTER]"
-read ipd
-	if [[ $ipd =~ "y" ]] || [[$ipd =~ "Y" ]] ; then
+read IPDEFAULT
+	if
+	[[ $IPDEFAULT =~ "y" ]] || [[$IPDEFAULT =~ "Y" ]] ; then
 	echo ""
 	echo "We are using your default IP address"
 	echo "Enter masternode private key for node, followed by [ENTER]: $ALIAS"
@@ -107,6 +117,7 @@ read ipd
 	echo "rpcpassword=passw"`shuf -i 100000-10000000 -n 1` >> $CONF_DIR/$CONF_FILE
 	echo "rpcallowip=127.0.0.1" >> $CONF_DIR/$CONF_FILE
 	echo "listen=1" >> $CONF_DIR/$CONF_FILE
+	echo "listenonion=1" >> $CONF_DIR/$CONF_FILE
 	echo "server=1" >> $CONF_DIR/$CONF_FILE
 	echo "daemon=1" >> $CONF_DIR/$CONF_FILE
 	echo "logtimestamps=1" >> $CONF_DIR/$CONF_FILE
@@ -117,8 +128,8 @@ read ipd
 	echo "port=$PORT" >> $CONF_DIR/$CONF_FILE
 	echo "masternodeaddr=$IP:$PORT" >> $CONF_DIR/$CONF_FILE
 	echo "masternodeprivkey=$PRIVKEY" >> $CONF_DIR/$CONF_FILE
-	sudo su -c "echo 'listenonion=1' >> $CONF_DIR/$CONF_FILE"
-	./xuezd -resync
+	./xuezd -daemon
+	sudo su -c "echo 'listenonion=1' >> /.xuez/xuez.conf"
 	echo "if server start failure try ./xuezd -reindex"
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo "!                                                 !"
@@ -126,7 +137,7 @@ read ipd
 	echo "!   and continue the local wallet setup guide     !"
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo ""
-else
+else	
 	echo "Type the custom IP of this node, followed by [ENTER]:"
 	read DIP
 	echo ""
@@ -140,6 +151,7 @@ else
 	echo "rpcpassword=passw"`shuf -i 100000-10000000 -n 1` >> $CONF_DIR/$CONF_FILE
 	echo "rpcallowip=127.0.0.1" >> $CONF_DIR/$CONF_FILE
 	echo "listen=1" >> $CONF_DIR/$CONF_FILE
+	echo "listenonion=1" >> $CONF_DIR/$CONF_FILE
 	echo "server=1" >> $CONF_DIR/$CONF_FILE
 	echo "daemon=1" >> $CONF_DIR/$CONF_FILE
 	echo "logtimestamps=1" >> $CONF_DIR/$CONF_FILE
@@ -151,7 +163,7 @@ else
 	echo "masternodeaddr=$DIP:$PORT" >> $CONF_DIR/$CONF_FILE
 	echo "masternodeprivkey=$PRIVKEY" >> $CONF_DIR/$CONF_FILE
 	sudo su -c "echo 'listenonion=1' >> /.xuez/xuez.conf"
-	./xuezd -resync
+	./xuezd -daemon
 	echo "if server start failure try ./xuezd -reindex"
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo "!                                                 !"
